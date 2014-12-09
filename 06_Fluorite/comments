@@ -1,0 +1,25 @@
+The dataset has 113 heats of ULC steel. 16 with fluorite and 97 without. There is a strong relation between endblow temperature and phosforus content. How can we assess the effect of the usage of fluorite in de-P without confounding it with the effect of temperature.
+
+A bootrstrap method:
+====================
+
+A linear model was constructed relating the P and T for heats with Fluorite.
+      > summary(stdModel)
+      
+      Call:
+      lm(formula = pNefe ~ tNefe)
+      
+      Residuals:
+          Min      1Q  Median      3Q     Max 
+      -2.4353 -1.2865 -0.6464  0.9631  3.6732 
+      
+      Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)  
+      (Intercept) -208.49980   77.69272  -2.684   0.0178 *
+      tNefe          0.13485    0.04788   2.816   0.0137 *
+      ---
+      Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+      
+      Residual standard error: 1.983 on 14 degrees of freedom
+      Multiple R-squared:  0.3617,  Adjusted R-squared:  0.3161 
+      F-statistic: 7.932 on 1 and 14 DF,  p-value: 0.01373

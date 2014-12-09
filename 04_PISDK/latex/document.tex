@@ -1,0 +1,140 @@
+%%% LaTeX Template: Article in MS Word style
+%%%
+%%% Source: http://www.howtotex.com/
+%%% Feel free to distribute this template, but please keep the referal to HowToTeX.com.
+%%% Date: January 2012
+
+%%% ------------------------------------------------------------
+%%% BEGIN PREAMBLE
+%%% ------------------------------------------------------------
+
+%%% document setup
+% \documentclass[10pt,dvipdfm]{article} 
+\documentclass[10pt]{article} 
+\usepackage[super,square,sort,comma,numbers]{natbib}
+
+
+
+%%% entradas em português
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage{url}
+
+%%% standard packages
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{graphicx}
+% \usepackage[dvipdfm]{graphicx}
+\usepackage{multicol}
+
+% http://tex.stackexchange.com/questions/75828/insert-figure-in-a-multicol-article
+\usepackage{float}
+
+% http://tex.stackexchange.com/questions/822/change-the-font-of-figure-captions
+% change the font size for the captions (labels), could use: small, footnotesize and scriptsize.
+\usepackage[font={footnotesize}]{caption}
+
+
+%%% font
+% \documentclass{beamer} 
+\usepackage[scaled]{helvet} % With " scaled " option
+\usepackage{eulervm}
+
+%\usepackage[scaled]{uarial}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+% \usepackage{mbtimes}  % não compilou
+
+% \usepackage{mathtime} % não compilou
+
+\usepackage[varg]{txfonts} %parece Times new Roman
+
+% \usepackage{fouriernc} %bunita
+
+\usepackage{mathpazo} % moderna, parece de livro
+
+% \renewcommand{\rmdefault}{phv} 		% Arial
+% \renewcommand{\sfdefault}{phv} 		% Arial
+
+% this is for inserting code snippets
+% http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+%http://tex.stackexchange.com/questions/102428/ttfamily-is-too-bold-for-me
+\renewcommand{\ttdefault}{pcr}
+	
+		\lstset{ %
+		  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+		  basicstyle=\scriptsize\ttfamily,        % the size of the fonts that are used for the code
+		  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+		  breaklines=true,                 % sets automatic line breaking
+		  captionpos=b,                    % sets the caption-position to bottom
+		  commentstyle=\color{mygreen},    % comment style
+		  deletekeywords={...},            % if you want to delete keywords from the given language
+		  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+		  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+		  %frame=single,                    % adds a frame around the code
+		  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+		  keywordstyle=\color{blue},       % keyword style
+		  language=Octave,                 % the language of the code
+		  morekeywords={*,...},            % if you want to add more keywords to the set
+		  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+		  numbersep=5pt,                   % how far the line-numbers are from the code
+		  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+		  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+		  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+		  showstringspaces=false,          % underline spaces within strings only
+		  showtabs=false,                  % show tabs within strings adding particular underscores
+		  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+		  stringstyle=\color{mymauve},     % string literal style
+		  tabsize=2,                       % sets default tabsize to 2 spaces
+		  %title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+		}
+
+
+\usepackage{indentfirst}
+%%% indentation and linespacing
+\setlength{\parindent}{25pt}	% indentation on new paragraph
+\setlength{\parskip}{9pt}	% vertical spacing on new paragraph
+\setlength{\lineskip}{1pt}	% vertical spacing between lines
+
+%%% margins
+\usepackage[top=1.55cm, bottom=2.29cm, left=1.6cm, right=1.47cm]{geometry}
+\setlength{\columnsep}{1cm}	% spacing between columns
+\setlength{\belowcaptionskip}{0pt}	% spacing below captions
+\setlength{\abovecaptionskip}{5pt}	% spacong above captions
+
+%%%% headings and sectioning
+\usepackage{titlesec}
+\titlespacing{\section}{0pt}{6pt}{3pt}
+
+\pagestyle{empty}
+\usepackage{sectsty}
+
+\makeatletter
+   \def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+\subsectionfont{\sffamily \normalsize}
+\subsubsectionfont{\sffamily \normalsize}
+\sectionfont{\sffamily \large}
+
+%% dummy text
+\usepackage{lipsum}
+
+% http://tex.stackexchange.com/questions/88890/how-to-get-the-references-section-to-be-numbered-as-if-it-were-created-via-sect
+\usepackage[numbib]{tocbibind}
+
+
+%%% ------------------------------------------------------------
+%%% BEGIN DOCUMENT
+%%% ------------------------------------------------------------
+\begin{document}
+	\input{body}
+\end{document} 

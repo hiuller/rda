@@ -1,0 +1,136 @@
+%%% LaTeX Template: Article in MS Word style
+%%%
+%%% Source: http://www.howtotex.com/
+%%% Feel free to distribute this template, but please keep the referal to HowToTeX.com.
+%%% Date: January 2012
+
+%%% ------------------------------------------------------------
+%%% BEGIN PREAMBLE
+%%% ------------------------------------------------------------
+
+%%% document setup
+% \documentclass[10pt,dvipdfm]{article} 
+\documentclass[10pt]{article} 
+\usepackage[super,square,sort,comma,numbers]{natbib}
+
+
+
+%%% entradas em português
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage{url}
+
+%%% standard packages
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{graphicx}
+% \usepackage[dvipdfm]{graphicx}
+\usepackage{multicol}
+
+% http://tex.stackexchange.com/questions/75828/insert-figure-in-a-multicol-article
+\usepackage{float}
+
+% http://tex.stackexchange.com/questions/822/change-the-font-of-figure-captions
+% change the font size for the captions (labels), could use: small, footnotesize and scriptsize.
+\usepackage[font={footnotesize}]{caption}
+
+
+%%% font
+% \documentclass{beamer} 
+\usepackage[scaled]{helvet} % With " scaled " option
+\usepackage{eulervm}
+
+%\usepackage[scaled]{uarial}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+% \usepackage{mbtimes}  % não compilou
+
+% \usepackage{mathtime} % não compilou
+
+\usepackage[varg]{txfonts} %parece Times new Roman
+
+% \usepackage{fouriernc} %bunita
+
+\usepackage{mathpazo} % moderna, parece de livro
+
+% \renewcommand{\rmdefault}{phv} 		% Arial
+% \renewcommand{\sfdefault}{phv} 		% Arial
+
+
+
+
+
+\usepackage{indentfirst}
+%%% indentation and linespacing
+\setlength{\parindent}{25pt}	% indentation on new paragraph
+\setlength{\parskip}{9pt}	% vertical spacing on new paragraph
+\setlength{\lineskip}{1pt}	% vertical spacing between lines
+
+%%% margins
+\usepackage[top=1.55cm, bottom=2.29cm, left=1.6cm, right=1.47cm]{geometry}
+\setlength{\columnsep}{1cm}	% spacing between columns
+\setlength{\belowcaptionskip}{0pt}	% spacing below captions
+\setlength{\abovecaptionskip}{5pt}	% spacong above captions
+
+%%%% headings and sectioning
+\usepackage{titlesec}
+\titlespacing{\section}{0pt}{6pt}{3pt}
+
+\pagestyle{empty}
+\usepackage{sectsty}
+
+\makeatletter
+   \def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+\subsectionfont{\sffamily \normalsize}
+\subsubsectionfont{\sffamily \normalsize}
+\sectionfont{\sffamily \large}
+
+%% dummy text
+\usepackage{lipsum}
+
+% http://tex.stackexchange.com/questions/88890/how-to-get-the-references-section-to-be-numbered-as-if-it-were-created-via-sect
+\usepackage[numbib]{tocbibind}
+
+
+%%% ------------------------------------------------------------
+%%% BEGIN DOCUMENT
+%%% ------------------------------------------------------------
+\begin{document}
+
+%%% Title, author
+%%% ------------------------------------------------------------	
+\begin{center}
+{\sffamily \begin{huge}\textbf{
+		Análise dos fatores que afetam o rendimento da adição de ligas de manganês durante o vazamento utilizando técnicas de projetos de experimentos (DOE)
+	}\end{huge}\\[10pt]
+{Hiuller C. Araujo}
+}\\
+
+	\begin{abstract}
+  As ligas de manganês são adicionadas ao aço durante o vazamento do convertedor e/ou nos processos subsequentes de refino secundário. Neste trabalho, foi investigado o efeito do teor de oxigênio no final de sopro, do índice de passagem de escória e do teor visado de manganês sobre o rendimento em manganês obtido durante o vazamento. O rendimento foi calculado com base no peso da carga metálica utilizando um rendimento metálico fixo de 91\%. A técnica empregada para análise dos dados foi a de Projetos de Experimentos (DOE), adaptada para utilização de dados que já estavam disponíveis. A análise de variância mostrou que as incertezas oriúndas da utilização de estimativas para o cálculo do rendimento em manganês resultou numa variação superior à do efeito das variáveis sob estudo. Para que seja viável estudar alternativas para controlar o rendimento de manganês no futuro será preciso desenvolver uma metodologia mais precisa para medir o rendimento de incorporação.
+	\end{abstract}
+\end{center}
+
+
+
+
+
+%%% Content
+%%% ------------------------------------------------------------
+\begin{multicols}{2}
+
+	\input{body}
+
+\bibliographystyle{IEEE/abntex2-num}
+% \bibliographystyle{IEEE/IEEEtranN}
+% \bibliographystyle{plainnat}
+% enable it only if you want to display some
+% this command renames the reference section: http://tex.stackexchange.com/questions/12597/renaming-the-bibliography-page-using-bibtex
+\renewcommand{\bibname}{Referências}
+\bibliography{references}
+
+\end{multicols}	
+\end{document} 
