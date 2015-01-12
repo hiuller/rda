@@ -1,0 +1,120 @@
+# Efeito metalúrgico da vedação do dardo
+
+Foram obtidos registros do banco de dados de processo para avaliar a diferença no consumo de alumínio e no fósforo final das corridas *com* e *sem* a vedação do dardo refratário. Existem 7 códigos para o funcionamento do dardo. O código 0 significa falta de registro. As corridas com código 0 foram eliminadas do banco. O código 1 indica que o dardo caiu no furo de corrida e vedou. Os códigos de 2 a 6 são problemáticos. Assim, foram considerados dois níveis para o fator `CLS_DARDO`: **com dardo** e **sem dardo**.
+
+```{r}
+rm(list=ls())
+setwd("C:/Users/Public/Documents/RDataAnalysis/09_darth")
+rawData <- read.csv("dardo.csv", sep=";")
+names(rawData)
+```
+
+A idéia é comparar o consumo de alumínio e o teor final de fósforo para as corridas com e sem o código de funcionamento do dardo. O banco de dados contempla corridas do ano de 2014. O número total de observações é `r nrow(rawData)`.
+
+Inicialmente, vamos explorar a quantidade de observações com e sem dardo, no período:
+
+```{r}
+table(rawData$CLS_DARDO)
+```
+
+O número de corridas sem dardo é muito superior ao número de corridas com vedação.
+
+## Efeito da vedação no consumo de alumínio
+
+Para testar estatisticamente o efeito da vedação, vamos obter amostras aleatórias de corridas com e sem dardo para diferentes siglas de aços (`SIGLA_ACO`). A tabela de contingência abaixo mostra uma tabulação da quantidade de observações por sigla:
+
+```{r}
+tabela <- table(rawData$SIGLA_ACO, rawData$CLS_DARDO)
+```
+
+Existem muitas siglas com um numero pequeno de observações. Para reduzir o número de siglas vamos criar um subconjunto dos dados originais para o qual a contagem de observações da mesma sigla nos dois tratamentos (`CLS_DARDO`) seja maior que um limiar arbitrário de 30 corridas. 
+
+```{r}
+siglas <- as.list(dimnames(tabela)[[1]])
+indices <- (1:length(siglas))[tabela[,1] > 30 & tabela[,2]>30]
+incluir <- as.character(siglas[indices])
+subData <- subset(rawData, rawData$SIGLA_ACO %in% incluir)
+rm(indices, siglas)
+```
+
+O número de siglas que atenderam o critério é `r length(incluir)`. O número total de observações no subconjunto (`subData`) é `r nrow(subData)`. A tabela de contingência abaixo mostra o conteúdo deste subconjunto:
+
+```{r}
+subData$SIGLA_ACO <- droplevels(subData$SIGLA_ACO)
+table(subData$SIGLA_ACO, subData$CLS_DARDO)
+````
+
+```{r}
+table(subData$CLS_DARDO)
+rm(tabela)
+```
+
+### Teste de hipóteses
+
+Vamos realizar um teste de hipóteses separado para cada sigla. 
+
+```{r fig.width=7, fig.height=6}
+pvalores <- c()
+for(indice in 1:length(incluir)) {
+  td <- subset(subData, subData$SIGLA_ACO %in% incluir[indice])
+  pvalores <- rbind(pvalores, t.test(td$CONS_AL ~ td$CLS_DARDO)$p.value)
+  rm(td)
+}
+rm(indice)
+plot(pvalores, pch=19, col=(pvalores<0.05)+3, cex=1.5, ylab="p-valor", xlab="Sigla")
+abline(h=0.05, col='red')
+title('p-valores para igualdade do consumo de alumínio')
+````
+
+O gráfico acima mostra o p-valor para as 36 siglas selecionadas. Quando o p-valor é menor que o nível de significância (0,05) a amostra permite rejeitar a hipótese de igualdade entre os tratamentos. Dentre as 36 siglas, apenas 4 apresentaram diferença entre o consumo de alumínio. No gráfico, a linha representa o nível de significância de 5%. Abaixo, estão listadas as siglas onde a diferença foi significativa.
+
+```{r}
+sign <- subset(subData, subData$SIGLA_ACO %in% incluir[(pvalores<0.05)])
+sign$SIGLA_ACO <- droplevels(sign$SIGLA_ACO)
+table(sign$SIGLA_ACO, sign$CLS_DARDO)
+rm(sign)
+```
+
+## Efeito da vedação no teor de fósforo final
+
+Nesta análise vamos agrupar as observações pelo fósforo máximo. A tabela de contingência abaixo mostra o número de observações para cada valor de fósforo máximo na sigla. Vamos considerar apenas as observações com o fósforo máximo menor ou igual a 25.
+
+```{r}
+table(rawData$P_MAX)
+pData <- subset(rawData, rawData$P_MAX <= 25)
+table(pData$P_MAX, pData$CLS_DARDO)
+```
+
+Vamos observar graficamente o comportamento do fósforo final em função do funcionamento do dardo. Para analisar as diferentes famílias na mesma base, vamos normalizar o teor de fósforo pelo teor máximo admissível. Para normalizar os valores, será criado um *score* chamado f que vale 1.0 para o fosforo máximo. A fórmula utilizada para o *escore* f é mostrada abaixo:
+
+$$ f=\frac{2 \left( \textrm{obt} - \textrm{min} \right) }{\textrm{max} - \textrm{min}} -1 $$
+
+A aplicação desta forma criou uma coluna adicional chamada `f.score`.
+
+```{r fig.width=7, fig.height=6}
+familias <-levels(as.factor(pData$P_MAX))
+pData$f.score <- 2*(as.numeric(pData$P)/pData$P_MAX)-1
+plot(pData$f.score ~ jitter(as.numeric(as.factor(pData$P_MAX))), pch=19, col=(pData$CLS_DARDO == "sem dardo")+3, cex=1.6, xaxt='n', ylab='F score', xlab='[P] max')
+title("[P] final em função da vedação")
+axis(side=1, at=1:9, labels=familias)
+legend(x=4, y=3.5, legend=c("com", "sem"), col=c(3,4), pch=19, cex=1.2)
+abline(h=1.0, col='red', lwd=2)
+```
+
+O que primeiro chamou atenção foi a quantidade de corridas com o teor de P final maior que o máximo. Vamos fazer um histograma para a família `P_MAX = 10`.
+
+```{r fig.width=7, fig.height=4}
+hist(pData$P[pData$P_MAX == "10"], breaks=15, ylab="Frequencia", xlab="pontos", main="Histograma do [P] na RF")
+abline(v=10, col='red', lwd=2)
+```
+
+Realmente a quantidade de corridas com teor de [P] maior que o máximo para a família `P_MAX = 10` é muito grande. As siglas desta família são as seguintes
+
+
+```{r}
+fam10 <- pData$SIGLA_ACO[pData$P_MAX == "10"]
+fam10 <- droplevels(fam10)
+table(fam10)
+```
+
+Podemos ver que das `r nrow(fam10)` corridas da família `P_MAX = 10`, são aços UBC.
