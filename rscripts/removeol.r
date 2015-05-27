@@ -52,3 +52,34 @@ normp <- function(x)
   library(nortest)
   ad.test(x)  
 }
+
+# Ipatinga, 19/05/2015
+# Need a function to remove outliers from a data.frame considering multilevels
+# it will iterate until no outlier is found
+# single column only
+multilevelrmol <- function(x, column_number, levels_number, draw=TRUE)
+{
+  niveis <- names(table(x[,levels_number]))
+  #partition the data.frame into as many as required levels
+  # dfs <- list();
+  ## store the result here
+  result <- list()
+  for( i in 1:length(niveis) )
+  {
+    # dfs[[i]] <- subset(x, subset=(x[,column_number]==niveis[i]))
+    temp <- subset(x, subset=(x[,levels_number]==niveis[i]))
+    while(sum(as.integer(ol(temp[,column_number])))>0)
+    {
+      temp <- removeol(temp, column_number, FALSE)
+    }
+    result[[i]] <- temp    
+  }  
+  
+  final <- rbind(result[[1]], result[[2]])
+  for( i in 3:length(niveis) )
+  {
+    final <- rbind(final, result[[i]])
+  }
+  
+  return(final)
+}
