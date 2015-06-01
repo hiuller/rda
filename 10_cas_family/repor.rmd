@@ -1,5 +1,5 @@
 ---
-  output: pdf_document
+output: html_document
 ---
 
 Descoberta não-supervisionada de famílias de consumo de alumínio no CAS-OB
@@ -26,14 +26,22 @@ Foram obtidas 5.704 observações de 9 variáveis do banco espelho do banco de d
 ```
 
 Uma berve descrição destes campos é apresentada a seguir:
-* `NUM_CORR_ACI`: Número da corrida, identificador único;
-* `COD_LOCAL_EVENTO_ACI` : Indentificador de qual CAS-OB foi utilizado;
-* `NUM_TRAT_ACO_PAN`: Número do tratamento. A mesma corrida pode ter mais de um tratamento;
-* `MES`: Inteiro longo no formato YYYMM (ano-mês);
-* `AL_CAS`: Peso de alumínio usado na corrida;
-* `GRAU`: Grau de desoxidação do aço (AA, AC ou AS);
-* `TRAT`: Código de tratamento realizado (C1, C7, F1, etc); e
-* `S_MAX`: Teor máximo de enxofre da sigla, em pontos;
+- `NUM_CORR_ACI`: Número da corrida, identificador único;
+
+- `COD_LOCAL_EVENTO_ACI` : Indentificador de qual CAS-OB foi utilizado;
+
+- `NUM_TRAT_ACO_PAN`: Número do tratamento. A mesma corrida pode ter mais de um tratamento;
+
+- `MES`: Inteiro longo no formato YYYMM (ano-mês);
+
+- `AL_CAS`: Peso de alumínio usado na corrida;
+
+- `GRAU`: Grau de desoxidação do aço (AA, AC ou AS);
+
+- `TRAT`: Código de tratamento realizado (C1, C7, F1, etc); e
+
+- `S_MAX`: Teor máximo de enxofre da sigla, em pontos;
+
 
 Os tipos de tratamento obtidos no banco de dados são:
 ```{r}
@@ -258,6 +266,7 @@ A saída gráfica do teste-t entre as famílias é apresentado pelo *interval pl
          xlab='cluesteres', ylab='Consumo Al, kg') 
   title("Intervalos de confiança para o consumo de Al entre os agrupamentos")
 ```
+
 # Conclusões
 
 Foi possível obter um agrupamento de tamanho 6 para famílias de aços com base no grau de desoxidação, tipo de tratamento e enxofre máximo que tem consumo de alumínio indistinto dentro do grupo e diferente entre os grupos. Esses agrupamentos serão usados para criar um padrão de consumo consistente na análise de consumo de alumínio num mês.
